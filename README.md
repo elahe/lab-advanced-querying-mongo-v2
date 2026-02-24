@@ -34,8 +34,8 @@ Since we will be querying our database from Mongo Compass, you will need to copy
 
 1. This is an example
 
-- **`query`**: /_You should copy/paste the query in here_/
-- **`projection`**: /_You should copy/paste the projection in here_/
+- **`query`**: /{name:1 , _id:0}/
+- **`projection`**: /{name:1 , _id:0}/
 - **`sort`**: /_You should copy/paste the sort in here_/
 - **`skip`**: /_You should copy/paste the skip in here_/
 - **`limit`**: /_You should copy/paste the limit in here_/
@@ -61,10 +61,12 @@ The database contains more than 18k documents. Each document holds the data abou
 
 ### Iteration 2
 
+
 You already know how this goes, so let's start working:
 
 1. All the companies whose name match 'Babelgum'. Retrieve only their `name` field.
-
+- **`query`**: /{name:1 , _id:0}/
+- **`projection`**: /{name:1 , _id:0}/
 <details>
   <summary>Solution</summary>
 
@@ -77,17 +79,27 @@ You already know how this goes, so let's start working:
 
 2. All the companies that have more than 5000 employees. Limit the search to 20 companies and sort them by **number of employees**.
 
+ **`query`**:/{number_of_employees: {$gte:5000}}/
+**`sort`**: /{number_of_employees:-1}/
+- **`limit`**: /20/
+
 <details>
   <summary>Solution</summary>
 
 - Query: `{number_of_employees: { $gt: 5000 }}`
 - Limit: `20`
 
+
 </details>
 
 <br>
 
 3. All the companies founded between 2000 and 2005, both years included. Retrieve only the `name` and `founded_year` fields.
+- **`query`**: /{founded_year: { $gte: 2000, $lte: 2005 }}/
+- **`projection`**: /{name: 1, _id: 0, founded_year: 1}/
+- **`sort`**: /_You should copy/paste the sort in here_/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /_You should copy/paste the limit in here_/
 
 <details>
   <summary>Solution</summary>
@@ -100,6 +112,11 @@ You already know how this goes, so let's start working:
 <br>
 
 4. All the companies that had a IPO Valuation Amount of more than 100,000,000 and have been founded before 2010. Retrieve only the `name` and `ipo` fields.
+- **`query`**: /{$and[{"ipo.valuation_amount":{$gte:1000000000}},{"founded_year":{$lte:2010}}]}/
+- **`projection`**: /{name: 1, _id: 0, ipo: 1}/
+- **`sort`**: /_You should copy/paste the sort in here_/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /_You should copy/paste the limit in here_/
 
 <details>
   <summary>Solution</summary>
@@ -113,6 +130,11 @@ You already know how this goes, so let's start working:
 <br>
 
 5. All the companies that don't include the `partners` field.
+- **`query`**: /{"partners":{ $exists: 'false' }}/
+
+- **`sort`**: /_You should copy/paste the sort in here_/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /_You should copy/paste the limit in here_/
 
 <details>
   <summary>Solution</summary>
@@ -124,6 +146,11 @@ You already know how this goes, so let's start working:
 <br>
 
 6. All the companies that have a null type of value on the `category_code` field.
+- **`query`**: /{category_code:null}/
+- **`projection`**: /{name:1 , _id:0}/
+- **`sort`**: /_You should copy/paste the sort in here_/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /_You should copy/paste the limit in here_/
 
 <details>
   <summary>Solution</summary>
@@ -135,6 +162,9 @@ You already know how this goes, so let's start working:
 <br>
 
 7. Order all the companies by their IPO price in descending order.
+- **`sort`**: /{"ipo.valuation_amount": -1}
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /_You should copy/paste the limit in here_/
 
 <details>
   <summary>Solution</summary>
@@ -146,6 +176,9 @@ You already know how this goes, so let's start working:
 <br>
 
 8. Retrieve the 10 companies with the most employees, order by the `number of employees`.
+- **`sort`**: /{number_of_employees:-1}/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /10/
 
 <details>
   <summary>Solution</summary>
@@ -159,6 +192,10 @@ You already know how this goes, so let's start working:
 <br>
 
 9. All the companies founded in the second semester of the year (July to December). Limit your search to 1000 companies.
+- **`query`**: /{"founded_day":{$gte:7}}/
+- **`sort`**: /_You should copy/paste the sort in here_/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /100/
 
 <details>
   <summary>Solution</summary>
@@ -171,6 +208,10 @@ You already know how this goes, so let's start working:
 <br>
 
 10. All the companies that have been founded on the first seven days of the month, including the seventh. Sort them by their `acquisition price` in descending order. Limit the search to 10 documents.
+- **`query`**: /{"founded_day":{$gte:7}}/
+- **`sort`**: /{'acquisition.price_amount': -1}/
+- **`skip`**: /_You should copy/paste the skip in here_/
+- **`limit`**: /10/
 
 <details>
   <summary>Solution</summary>
